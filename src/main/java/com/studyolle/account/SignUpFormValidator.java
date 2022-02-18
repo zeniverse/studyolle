@@ -20,12 +20,12 @@ public class SignUpFormValidator implements Validator {
     public void validate(Object target, Errors errors) {
         SignUpForm signUpForm = (SignUpForm) target;
 
-        if(accountRepository.findByEmail(signUpForm.getEmail())){
+        if(accountRepository.existsByEmail(signUpForm.getEmail())){
             errors.rejectValue("email", "invalid.email",
                     new Object[]{signUpForm.getEmail()}, "이미 사용중인 이메일입니다.");
         }
 
-        if(accountRepository.findByNickname(signUpForm.getNickname())){
+        if(accountRepository.existsByNickname(signUpForm.getNickname())){
             errors.rejectValue("nickname", "invalid.nickname",
                     new Object[]{signUpForm.getNickname()}, "이미 사용중인 닉네임입니다.");
         }
