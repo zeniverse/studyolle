@@ -57,7 +57,7 @@ public class AccountController {
         }
 
         /** token 값이 올바르지 않을 때 */
-        if (!account.getEmailCheckToken().equals(token)){
+        if (!account.isValidToken(token)){
             model.addAttribute("error", "wrong.token");
             return view;
         }
