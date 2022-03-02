@@ -11,7 +11,7 @@
         <div class="row justify-content-center">
             <form class="needs-validation col-sm-6" action="#"
                   th:action="@{/sign-up}" th:object="${signUpForm}" method="post" novalidate>
-                <div class="form-group">
+                <div class="form-group pb-3">
                     <label for="nickname">닉네임</label>
                     <input id="nickname" type="text" th:field="*{nickname}" class="form-control"
                            placeholder="whiteship" aria-describedby="nicknameHelp" required minlength="3" maxlength="20">
@@ -22,7 +22,7 @@
                     <small class="form-text text-danger" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">Nickname Error</small>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group pb-3">
                     <label for="email">이메일</label>
                     <input id="email" type="email" th:field="*{email}" class="form-control"
                            placeholder="your@email.com" aria-describedby="emailHelp" required>
@@ -33,7 +33,7 @@
                     <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</small>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group pb-3">
                     <label for="password">패스워드</label>
                     <input id="password" type="password" th:field="*{password}" class="form-control"
                            aria-describedby="passwordHelp" required minlength="8" maxlength="50">
@@ -44,8 +44,8 @@
                     <small class="form-text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</small>
                 </div>
 
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit"
+                <div class="form-group pb-3">
+                    <button class="btn btn-primary w-100" type="submit"
                             aria-describedby="submitHelp">가입하기</button>
                     <small id="submitHelp" class="form-text text-muted">
                         <a href="#">약관</a>에 동의하시면 가입하기 버튼을 클릭하세요.
