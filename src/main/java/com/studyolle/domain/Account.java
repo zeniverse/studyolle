@@ -67,4 +67,7 @@ public class Account {
         return this.emailCheckToken.equals(token);
     }
 
+    public boolean canSendConfirmEmail() {
+        return this.emailCheckTokenGeneratedAt.isBefore(LocalDateTime.now().minusHours(1));
+    }
 }
