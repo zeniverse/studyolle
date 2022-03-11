@@ -12,8 +12,8 @@
     <div class="col-2">
       <div th:replace="fragments.html :: settings-menu(currentMenu='profile')"></div>
     </div>
-    <div class="col-8">
 
+    <div class="col-8">
       <div th:if="${message}" class="alert alert-primary alert-dismissible fade show" role="alert">
         <strong th:text="${message}">메시지</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -22,6 +22,7 @@
       <div class="row">
         <h2 class="col-sm-12" th:text="${account.nickname}">nickname</h2>
       </div>
+
       <div class="row mt-3">
         <form class="col-sm-6" action="#"
               th:action="@{/settings/profile}" th:object="${profile}" method="post" novalidate>
