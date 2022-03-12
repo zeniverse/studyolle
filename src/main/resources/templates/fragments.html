@@ -53,13 +53,17 @@
                 </li>
 
                 <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                       data-bs-toggle="dropdown"aria-expanded="false" aria-haspopup="true">
 
-                        <svg data-jdenticon-value="user127" th:data-jdenticon-value="${#authentication.name}"
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+
+                        <svg th:if="${#strings.isEmpty(account?.profileImage)}" th:data-jdenticon-value="${#authentication.name}"
                              width="32" height="32" class="rounded border bg-light"></svg>
+                        <img th:if="${!#strings.isEmpty(account?.profileImage)}" th:src="${account.profileImage}"
+                             width="32" height="32" class="rounded border"/>
 
                     </a>
+
                     <ul class="dropdown-menu dropdown-menu-sm-end" aria-labelledby="userDropdown">
                         <h6 class="dropdown-header">
                             <span sec:authentication="name">Username</span>
