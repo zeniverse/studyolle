@@ -101,5 +101,10 @@ public class AccountService implements UserDetailsService {
         account.setProfileImage(profile.getProfileImage());
         accountRepository.save(account);
     }
+
+    public void updatePassword(Account account, String newPassword) {
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account);
+    }
 }
 
