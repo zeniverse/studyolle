@@ -83,4 +83,42 @@ class SettingsControllerTest {
 
     }
 
+    @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("패스워드 수정 폼")
+    @Test
+    public void passwordForm() throws Exception {
+        mockMvc.perform(get("/settings/password"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("passwordForm"));
+    }
+
+    @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("패스워드 수정 - 입력값 정상")
+    @Test
+    public void updatePassword() throws Exception {
+        mockMvc.perform(post("/settings/password")
+                .param("newPassword", "aaaaaaaa")
+                .param("newPasswordConfirm", "aaaaaaaa")
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/settings/password"))
+                .andExpect(flash().attributeExists("message"));
+    }
+
+    @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("패스워드 수정 - 입력값 에러")
+    @Test
+    public void updatePassword_fail() throws Exception {
+        mockMvc.perform(post("/settings/password")
+                .param("newPassword", "11")
+                .param("newPasswordConfirm", "11")
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/settings/password"))
+                .andExpect(model().hasErrors())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("passwordForm"));
+    }
+
 }
