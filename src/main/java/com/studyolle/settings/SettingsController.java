@@ -3,9 +3,11 @@ package com.studyolle.settings;
 import com.studyolle.account.AccountService;
 import com.studyolle.account.CurrentUser;
 import com.studyolle.domain.Account;
+import com.studyolle.settings.form.NicknameForm;
 import com.studyolle.settings.form.Notifications;
 import com.studyolle.settings.form.PasswordForm;
 import com.studyolle.settings.form.Profile;
+import com.studyolle.settings.validator.NicknameFormValidator;
 import com.studyolle.settings.validator.PasswordFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,10 +29,16 @@ public class SettingsController {
 
     private final AccountService accountService;
     private final ModelMapper modelMapper;
+    private final NicknameFormValidator nicknameFormValidator;
 
     @InitBinder("passwordForm")
-    public void initBinder(WebDataBinder webDataBinder){
+    public void passwordFormInitBinder(WebDataBinder webDataBinder){
         webDataBinder.addValidators(new PasswordFormValidator());
+    }
+
+    @InitBinder("nicknameForm")
+    public void nicknameFormInitBinder(WebDataBinder webDataBinder){
+        webDataBinder.addValidators(nicknameFormValidator);
     }
 
     @GetMapping("/settings/profile")
@@ -94,5 +102,26 @@ public class SettingsController {
         accountService.updateNotifications(account, notifications);
         attributes.addFlashAttribute("message", "알림 설정을 변경했습니다.");
         return "redirect:/settings/notifications";
+    }
+
+    @GetMapping("/settings/account")
+    public String updateAccountForm(@CurrentUser Account account, Model model){
+        model.addAttribute(account);
+        model.addAttribute(modelMapper.map(account, NicknameForm.class));
+
+        return "settings/account";
+    }
+
+    @PostMapping("/settings/account")
+    public String updateAccount(@CurrentUser Account account, @Valid NicknameForm nicknameForm, Errors errors,
+                                Model model, RedirectAttributes attributes){
+        if(errors.hasErrors()){
+            model.addAttribute(account);
+            return "settings/account";
+        }
+
+        accountService.updateNickname(account, nicknameForm.getNickname());
+        attributes.addFlashAttribute("message", "닉네임을 수정했습니다");
+        return "redirect:/settings/account";
     }
 }
