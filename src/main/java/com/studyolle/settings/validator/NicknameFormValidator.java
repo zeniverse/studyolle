@@ -10,7 +10,7 @@ import org.springframework.validation.Validator;
 
 @Component
 @RequiredArgsConstructor
-public class NicknameValidator implements Validator {
+public class NicknameFormValidator implements Validator {
 
     private final AccountRepository accountRepository;
 
