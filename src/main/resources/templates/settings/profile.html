@@ -9,12 +9,16 @@
 <div class="container">
 
   <div class="row mt-5 justify-content-center">
+
+    <div th:replace="fragments.html :: alert-icon"></div>
+
     <div class="col-2">
       <div th:replace="fragments.html :: settings-menu(currentMenu='profile')"></div>
     </div>
 
     <div class="col-8">
       <div th:if="${message}" class="alert alert-primary alert-dismissible fade show" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
         <strong th:text="${message}">메시지</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>

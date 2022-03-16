@@ -6,9 +6,11 @@
 <body class="bg-light">
   <div th:replace="fragments.html :: main-nav"></div>
   <div class="container">
+
     <div class="py-5 text-center" th:if="${error != null}">
       <p class="lead">스터디올래 가입</p>
-      <div  class="alert alert-danger" role="alert" th:text="${error}"></div>
+      <div  class="alert alert-danger" role="alert" th:text="${error}">
+      </div>
       <p class="lead" th:text="${email}">your@email.com</p>
     </div>
 

@@ -6,9 +6,12 @@
 <body class="bg-light">
   <div th:replace="fragments.html :: main-nav"></div>
 
+  <div th:replace="fragments.html :: alert-icon"></div>
+
   <div class="py-5 text-center" th:if="${error}">
     <p class="lead">스터디올래 이메일 확인</p>
     <div class="alert alert-danger" role="alert">
+      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
       이메일 확인 링크가 정확하지 않습니다
     </div>
   </div>
