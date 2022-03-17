@@ -124,4 +124,10 @@ public class SettingsController {
         attributes.addFlashAttribute("message", "닉네임을 수정했습니다");
         return "redirect:/settings/account";
     }
+
+    @GetMapping("/settings/tags")
+    public String updateTags(@CurrentUser Account account, Model model){
+        model.addAttribute(account);
+        return "settings/tags";
+    }
 }
