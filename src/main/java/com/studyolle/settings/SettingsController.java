@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -136,7 +138,7 @@ public class SettingsController {
 
         Tag tag = tagRepository.findByTitle(title);
         if(tag == null){
-            tagRepository.save(Tag.builder().title(tagForm.getTagTitle()).build());
+            tag = tagRepository.save(Tag.builder().title(tagForm.getTagTitle()).build());
         }
 
         accountService.addTag(account, tag);
