@@ -1,5 +1,7 @@
 package com.studyolle.settings;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studyolle.account.AccountService;
 import com.studyolle.account.CurrentUser;
 import com.studyolle.domain.Account;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,7 @@ public class SettingsController {
     private final ModelMapper modelMapper;
     private final NicknameFormValidator nicknameFormValidator;
     private final TagRepository tagRepository;
+    private final ObjectMapper objectMapper;
 
     @InitBinder("passwordForm")
     public void passwordFormInitBinder(WebDataBinder webDataBinder){
@@ -126,11 +130,15 @@ public class SettingsController {
     }
 
     @GetMapping("/settings/tags")
-    public String updateTags(@CurrentUser Account account, Model model){
+    public String updateTags(@CurrentUser Account account, Model model) throws JsonProcessingException {
         model.addAttribute(account);
 
         Set<Tag> tags = accountService.getTags(account);
         model.addAttribute("tags", tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
+
+        List<String> allTags = tagRepository.findAll().stream().map(Tag::getTitle).collect(Collectors.toList());
+        model.addAttribute("whitelist", objectMapper.writeValueAsString(allTags));
+
         return "settings/tags";
     }
 
@@ -145,6 +153,20 @@ public class SettingsController {
         }
 
         accountService.addTag(account, tag);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/settings/tags/remove")
+    @ResponseBody
+    public ResponseEntity removeTag(@CurrentUser Account account, @RequestBody TagForm tagForm){
+        String title = tagForm.getTagTitle();
+
+        Tag tag = tagRepository.findByTitle(title);
+        if(tag == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+        accountService.removeTag(account, tag);
         return ResponseEntity.ok().build();
     }
 }
