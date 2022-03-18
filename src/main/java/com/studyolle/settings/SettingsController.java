@@ -128,6 +128,9 @@ public class SettingsController {
     @GetMapping("/settings/tags")
     public String updateTags(@CurrentUser Account account, Model model){
         model.addAttribute(account);
+
+        Set<Tag> tags = accountService.getTags(account);
+        model.addAttribute("tags", tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
         return "settings/tags";
     }
 
