@@ -1,9 +1,13 @@
 package com.studyolle.settings;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studyolle.account.AccountRepository;
 import com.studyolle.account.AccountService;
 import com.studyolle.account.SignUpForm;
 import com.studyolle.domain.Account;
+import com.studyolle.domain.Tag;
+import com.studyolle.settings.form.TagForm;
+import com.studyolle.tag.TagRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,9 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -21,6 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 class SettingsControllerTest {
@@ -28,6 +35,9 @@ class SettingsControllerTest {
     @Autowired MockMvc mockMvc;
     @Autowired AccountRepository accountRepository;
     @Autowired AccountService accountService;
+    @Autowired ObjectMapper objectMapper;
+    @Autowired TagRepository tagRepository;
+
 
     @BeforeEach
     public void beforeEach(){
@@ -42,6 +52,63 @@ class SettingsControllerTest {
     void afterEach() {
         accountRepository.deleteAll();
     }
+
+    @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("태그 수정 폼")
+    @Test
+    public void updatedTagsfrom() throws Exception {
+        mockMvc.perform(get("/settings/tags"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("settings/tags"))
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("whitelist"))
+                .andExpect(model().attributeExists("tags"));
+    }
+
+    @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("태그 추가")
+    @Test
+    public void addTag() throws Exception {
+        TagForm tagForm = new TagForm();
+        tagForm.setTagTitle("newTag");
+
+        mockMvc.perform(post("/settings/tags/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(tagForm))
+                .with(csrf()))
+                .andExpect(status().isOk());
+
+        Tag newTag = tagRepository.findByTitle("newTag");
+        assertNotNull(newTag);
+        Account zering = accountRepository.findByNickname("zering");
+        assertTrue(zering.getTags().contains(newTag));
+
+    }
+
+    @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("태그 삭제")
+    @Test
+    public void removeTag() throws Exception {
+
+        Account zering = accountRepository.findByNickname("zering");
+        Tag newTag = tagRepository.save(Tag.builder().title("newTag").build());
+        accountService.addTag(zering, newTag);
+
+        assertTrue(zering.getTags().contains(newTag));
+
+        TagForm tagForm = new TagForm();
+        tagForm.setTagTitle("newTag");
+
+        mockMvc.perform(post("/settings/tags/remove")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(tagForm))
+                .with(csrf()))
+                .andExpect(status().isOk());
+
+        assertFalse(zering.getTags().contains("newTag"));
+
+    }
+
 
     @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @DisplayName("프로필 수정 폼")
