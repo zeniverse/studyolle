@@ -4,6 +4,7 @@ import com.studyolle.account.AccountRepository;
 import com.studyolle.account.AccountService;
 import com.studyolle.account.SignUpForm;
 import com.studyolle.domain.Account;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,11 @@ class SettingsControllerTest {
         signUpForm.setNickname("zering");
         signUpForm.setPassword("123456789");
         accountService.processNewAccount(signUpForm);
+    }
+
+    @AfterEach
+    void afterEach() {
+        accountRepository.deleteAll();
     }
 
     @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -115,7 +121,7 @@ class SettingsControllerTest {
                 .param("newPasswordConfirm", "11")
                 .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/settings/password"))
+                .andExpect(view().name("settings/password"))
                 .andExpect(model().hasErrors())
                 .andExpect(model().attributeExists("account"))
                 .andExpect(model().attributeExists("passwordForm"));
