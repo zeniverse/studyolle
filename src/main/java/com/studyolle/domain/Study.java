@@ -1,5 +1,6 @@
 package com.studyolle.domain;
 
+import com.studyolle.account.UserAccount;
 import lombok.*;
 
 import javax.persistence.*;
@@ -52,7 +53,7 @@ public class Study {
 
     private boolean closed;
 
-    private boolean userBanner;
+    private boolean useBanner;
 
     public void addManager(Account account) {
         this.managers.add(account);
