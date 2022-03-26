@@ -18,4 +18,13 @@ public class StudyService {
         newStudy.addManager(account);
         return newStudy;
     }
+
+    public Study getStudy(String path){
+        Study study = this.studyRepository.findByPath(path);
+        if(study == null){
+            throw new IllegalArgumentException(path + "에 해당하는 스터디가 없습니다.");
+        }
+
+        return study;
+    }
 }
