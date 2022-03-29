@@ -8,15 +8,22 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@NamedEntityGraph(name = "Study.withTagsAndManagers", attributeNodes = {
-        @NamedAttributeNode("tags"),
-        @NamedAttributeNode("managers")})
+
 
 @NamedEntityGraph(name = "Study.withAll", attributeNodes = {
         @NamedAttributeNode("tags"),
         @NamedAttributeNode("zones"),
         @NamedAttributeNode("managers"),
         @NamedAttributeNode("members")})
+
+@NamedEntityGraph(name = "Zone.withZonesAndManagers", attributeNodes = {
+        @NamedAttributeNode("zones"),
+        @NamedAttributeNode("managers")})
+
+@NamedEntityGraph(name = "Study.withTagsAndManagers", attributeNodes = {
+        @NamedAttributeNode("tags"),
+        @NamedAttributeNode("managers")})
+
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 @Builder @NoArgsConstructor @AllArgsConstructor

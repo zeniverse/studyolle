@@ -3,6 +3,7 @@ package com.studyolle.study;
 import com.studyolle.domain.Account;
 import com.studyolle.domain.Study;
 import com.studyolle.domain.Tag;
+import com.studyolle.domain.Zone;
 import com.studyolle.study.form.StudyDescriptionForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -85,5 +86,21 @@ public class StudyService {
 
     public void removeTag(Study study, Tag tag) {
         study.getTags().remove(tag);
+    }
+
+    public Study getStudyToUpdateZone(Account account, String path) {
+        Study study = studyRepository.findAccountWithZonesByPath(path);
+        checkIfExistingStudy(path, study);
+        checkIfManager(account, study);
+        return study;
+    }
+
+
+    public void addZone(Study study, Zone zone) {
+        study.getZones().add(zone);
+    }
+
+    public void removeZone(Study study, Zone zone) {
+        study.getZones().remove(zone);
     }
 }
