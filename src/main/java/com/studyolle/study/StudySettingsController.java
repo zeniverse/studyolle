@@ -1,9 +1,13 @@
 package com.studyolle.study;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studyolle.account.CurrentUser;
 import com.studyolle.domain.Account;
 import com.studyolle.domain.Study;
+import com.studyolle.domain.Tag;
 import com.studyolle.study.form.StudyDescriptionForm;
+import com.studyolle.tag.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/study/{path}/settings")
@@ -27,6 +33,8 @@ public class StudySettingsController {
     private final StudyRepository studyRepository;
     private final StudyService studyService;
     private final ModelMapper modelMapper;
+    private final TagRepository tagRepository;
+    private final ObjectMapper objectMapper;
 
     @GetMapping("/description")
     public String viewStudySetting(@CurrentUser Account account, @PathVariable String path, Model model){
@@ -94,5 +102,23 @@ public class StudySettingsController {
         attributes.addFlashAttribute("message", "스터디 이미지를 수정했습니다.");
 
         return "redirect:/study/" + getPath(path) + "/settings/banner";
+    }
+
+    @GetMapping("/tags")
+    public String studyTagsForm(@CurrentUser Account account, @PathVariable String path, Model model)
+            throws JsonProcessingException {
+
+        Study study = studyService.getStudyToUpdate(account, path);
+        model.addAttribute(account);
+        model.addAttribute(study);
+
+        model.addAttribute("tags", study.getTags().stream()
+                .map(Tag::getTitle).collect(Collectors.toList()));
+
+        List<String> allTagTitles = tagRepository.findAll().stream()
+                .map(Tag::getTitle).collect(Collectors.toList());
+        model.addAttribute("whitelist", objectMapper.writeValueAsString(allTagTitles));
+
+        return "study/settings/tags";
     }
 }
