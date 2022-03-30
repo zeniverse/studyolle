@@ -30,6 +30,9 @@ import java.util.Set;
         @NamedAttributeNode(("managers"))
 })
 
+@NamedEntityGraph(name = "Study.withMembers", attributeNodes = {
+        @NamedAttributeNode("members")})
+
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 @Builder @NoArgsConstructor @AllArgsConstructor
@@ -149,5 +152,13 @@ public class Study {
 
     public String getEncodedPath() {
         return URLEncoder.encode(this.path, StandardCharsets.UTF_8);
+    }
+
+    public void addMember(Account account) {
+        this.getMembers().add(account);
+    }
+
+    public void removeMember(Account account) {
+        this.getMembers().remove(account);
     }
 }
