@@ -69,4 +69,5 @@ public class StudyController {
         model.addAttribute(study);
         return "study/members";
     }
+
 }
