@@ -15,6 +15,7 @@ import com.studyolle.zone.ZoneForm;
 import com.studyolle.zone.ZoneRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.Banner;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -203,5 +204,34 @@ public class StudySettingsController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/study")
+    public String studySettingForm(@CurrentUser Account account, @PathVariable String path, Model model){
+        Study study = studyService.getStudyToUpdate(account, path);
+        model.addAttribute(study);
+        model.addAttribute(account);
+
+        return "study/settings/study";
+    }
+
+    @PostMapping("/study/publish")
+    public String publishStudy(@CurrentUser Account account, @PathVariable String path,
+                               RedirectAttributes attributes){
+
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+        studyService.publish(study);
+        attributes.addFlashAttribute("message", "스터디를 공개했습니다.");
+
+        return "redirect:/study/" + getPath(path) + "/settings/study";
+    }
+
+    @PostMapping("/study/close")
+    public String closeStudy(@CurrentUser Account account, @PathVariable String path,
+                               RedirectAttributes attributes){
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+        studyService.close(study);
+        attributes.addFlashAttribute("message", "스터디를 종료했습니다.");
+
+        return "redirect:/study/" + getPath(path) + "/settings/study";
+    }
 
 }
