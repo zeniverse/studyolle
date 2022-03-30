@@ -234,4 +234,36 @@ public class StudySettingsController {
         return "redirect:/study/" + getPath(path) + "/settings/study";
     }
 
+    @PostMapping("/recruit/start")
+    public String startRecruit(@CurrentUser Account account, @PathVariable String path,
+                               RedirectAttributes attributes){
+
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+
+        if(!study.canUpdateRecruiting()){
+            attributes.addFlashAttribute("message",
+                    "1시간 안에 인원 모집 설정을 여러번 변경할 수 없습니다.");
+            return "redirect:/study/" + getPath(path) + "/settings/study";
+        }
+
+        studyService.startRecruit(study);
+        attributes.addFlashAttribute("message", "인원 모집을 시작합니다.");
+        return "redirect:/study/" + getPath(path) + "/settings/study";
+    }
+
+    @PostMapping("/recruit/stop")
+    public String stopRecruit(@CurrentUser Account account, @PathVariable String path,
+                               RedirectAttributes attributes){
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+
+        if(!study.canUpdateRecruiting()){
+            attributes.addFlashAttribute("message",
+                    "1시간 안에 인원 모집 설정을 여러번 변경할 수 없습니다.");
+            return "redirect:/study/" + getPath(path) + "/settings/study";
+        }
+
+        studyService.stopRecruit(study);
+        attributes.addFlashAttribute("message", "인원 모집을 중단합니다.");
+        return "redirect:/study/" + getPath(path) + "/settings/study";
+    }
 }

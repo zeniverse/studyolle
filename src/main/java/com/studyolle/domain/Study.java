@@ -117,4 +117,27 @@ public class Study {
             throw new RuntimeException("스터디를 종료할 수 없습니다. 스터디를 공개하지 않았거나 이미 종료한 스터디입니다.");
         }
     }
+
+    public boolean canUpdateRecruiting() {
+        return this.published && this.recruitingUpdatedDateTime == null
+                || this.recruitingUpdatedDateTime.isBefore(LocalDateTime.now().minusHours(1));
+    }
+
+    public void startRecruit() {
+        if(canUpdateRecruiting()){
+            this.recruiting = true;
+            this.recruitingUpdatedDateTime = LocalDateTime.now();
+        }else{
+            throw new RuntimeException("인원 모집을 시작할 수 없습니다. 스터디를 공개하거나 한 시간 뒤 다시 시도하세요.");
+        }
+    }
+
+    public void stopRecruit() {
+        if(canUpdateRecruiting()){
+            this.recruiting = false;
+            this.recruitingUpdatedDateTime = LocalDateTime.now();
+        }else{
+            throw new RuntimeException("인원 모집을 중단할 수 없습니다. 스터디를 공개하거나 한 시간 뒤 다시 시도하세요.");
+        }
+    }
 }

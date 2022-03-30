@@ -119,4 +119,12 @@ public class StudyService {
     public void close(Study study) {
         study.close();
     }
+
+    public void startRecruit(Study study) {
+        study.startRecruit();
+    }
+
+    public void stopRecruit(Study study) {
+        study.stopRecruit();
+    }
 }
