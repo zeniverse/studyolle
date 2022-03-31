@@ -43,4 +43,18 @@ public class EventController {
         return "event/form";
     }
 
+    @PostMapping("/new-event")
+    public String newEventSubmit(@CurrentAccount Account account, @PathVariable String path,
+                                 @Valid EventForm eventForm, Errors errors, Model model){
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+
+        if(errors.hasErrors()){
+            model.addAttribute(account);
+            model.addAttribute(study);
+            return "event/form";
+        }
+
+        Event event = eventService.createEvent(modelMapper.map(eventForm, Event.class), study, account);
+        return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
+    }
 }
