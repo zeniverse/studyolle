@@ -2,15 +2,20 @@ package com.studyolle.event;
 
 import com.studyolle.account.CurrentAccount;
 import com.studyolle.domain.Account;
+import com.studyolle.domain.Event;
 import com.studyolle.domain.Study;
 import com.studyolle.event.form.EventForm;
+import com.studyolle.event.validator.EventFormValidator;
 import com.studyolle.study.StudyService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/study/{path}")
@@ -18,6 +23,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EventController {
 
     private final StudyService studyService;
+    private final EventFormValidator eventFormValidator;
+    private final ModelMapper modelMapper;
+    private final EventService eventService;
+
+    @InitBinder("eventForm")
+    public void initBinder(WebDataBinder webDataBinder){
+        webDataBinder.addValidators(eventFormValidator);
+    }
 
     @GetMapping("/new-event")
     public String newEventForm(@CurrentAccount Account account, @PathVariable String path, Model model){
