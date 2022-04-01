@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 public class Event {
@@ -81,6 +82,16 @@ public class Event {
         }
 
         return false;
+    }
+
+    public int numberOfRemainSpots() {
+        long count = 0L;
+        for (Enrollment enrollment : this.enrollments) {
+            if (enrollment.isAccepted()) {
+                count++;
+            }
+        }
+        return this.limitOfEnrollments - (int) count;
     }
 
 }
