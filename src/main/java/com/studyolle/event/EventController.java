@@ -26,6 +26,7 @@ public class EventController {
     private final EventFormValidator eventFormValidator;
     private final ModelMapper modelMapper;
     private final EventService eventService;
+    private final EventRepository eventRepository;
 
     @InitBinder("eventForm")
     public void initBinder(WebDataBinder webDataBinder){
@@ -56,5 +57,15 @@ public class EventController {
 
         Event event = eventService.createEvent(modelMapper.map(eventForm, Event.class), study, account);
         return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
+    }
+
+    @GetMapping("/events/{id}")
+    public String getEvent(@CurrentAccount Account account, @PathVariable String path,
+                           @PathVariable Long id, Model model){
+        model.addAttribute(account);
+        model.addAttribute(studyService.getStudy(path));
+        model.addAttribute(eventRepository.findById(id).orElseThrow());
+
+        return "event/view";
     }
 }
