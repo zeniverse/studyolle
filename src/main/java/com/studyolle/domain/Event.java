@@ -117,4 +117,14 @@ public class Event {
                 && enrollment.isAccepted();
     }
 
+    public boolean isAbleToAcceptWaitingEnrollment() {
+        return this.getEventType() == EventType.FCFS &&
+                this.limitOfEnrollments > this.getNumberOfAcceptedEnrollments();
+
+    }
+
+    public void addEnrollment(Enrollment enrollment) {
+        this.enrollments.add(enrollment);
+        enrollment.setEvent(this);
+    }
 }
