@@ -6,6 +6,7 @@ import com.studyolle.domain.Event;
 import com.studyolle.domain.Study;
 import com.studyolle.event.form.EventForm;
 import com.studyolle.event.validator.EventFormValidator;
+import com.studyolle.study.StudyRepository;
 import com.studyolle.study.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,6 +31,7 @@ public class EventController {
     private final ModelMapper modelMapper;
     private final EventService eventService;
     private final EventRepository eventRepository;
+    private final StudyRepository studyRepository;
 
     @InitBinder("eventForm")
     public void initBinder(WebDataBinder webDataBinder){
@@ -66,7 +68,7 @@ public class EventController {
     public String getEvent(@CurrentAccount Account account, @PathVariable String path,
                            @PathVariable Long id, Model model){
         model.addAttribute(account);
-        model.addAttribute(studyService.getStudy(path));
+        model.addAttribute(studyRepository.findStudyWithManagersByPath(path));
         model.addAttribute(eventRepository.findById(id).orElseThrow());
 
         return "event/view";
@@ -153,4 +155,5 @@ public class EventController {
 
         return "redirect:/study/" + study.getEncodedPath() + "/events";
     }
+
 }
