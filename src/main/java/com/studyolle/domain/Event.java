@@ -7,7 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @NamedEntityGraph(
@@ -127,4 +129,29 @@ public class Event {
         this.enrollments.add(enrollment);
         enrollment.setEvent(this);
     }
+
+    public void removeEnrollment(Enrollment enrollment) {
+        this.enrollments.remove(enrollment);
+        enrollment.setEvent(null);
+    }
+
+    public void acceptNextWaitingEnrollment() {
+        if(isAbleToAcceptWaitingEnrollment()){
+            Enrollment enrollmentToAccept = this.getTheFirstWaitingEnrollment();
+            if(enrollmentToAccept != null){
+                enrollmentToAccept.setAccepted(true);
+            }
+        }
+    }
+
+    private Enrollment getTheFirstWaitingEnrollment() {
+        for(Enrollment e : this.enrollments){
+            if(!e.isAccepted()){
+                return e;
+            }
+        }
+
+        return null;
+    }
+
 }
