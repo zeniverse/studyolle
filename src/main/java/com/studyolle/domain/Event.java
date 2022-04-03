@@ -154,4 +154,25 @@ public class Event {
         return null;
     }
 
+    private List<Enrollment> getWaitingList() {
+        List<Enrollment> list = new ArrayList<>();
+        for (Enrollment enrollment : this.enrollments) {
+            if (!enrollment.isAccepted()) {
+                list.add(enrollment);
+            }
+        }
+        return list;
+    }
+
+    public void acceptWaitingList() {
+        if(isAbleToAcceptWaitingEnrollment()){
+            var waitingList = getWaitingList();
+            int numberToAccept =
+                    (int) Math.min(
+                            this.limitOfEnrollments - this.getNumberOfAcceptedEnrollments(),
+                            waitingList.size()
+                    );
+            waitingList.subList(0, numberToAccept).forEach(e -> e.setAccepted(true));
+        }
+    }
 }

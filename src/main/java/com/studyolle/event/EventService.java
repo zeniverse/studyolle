@@ -30,6 +30,7 @@ public class EventService {
 
     public void updateEvent(Event event, EventForm eventForm) {
         modelMapper.map(eventForm, event);
+        event.acceptWaitingList();
     }
 
     public void deleteEvent(Event event) {
