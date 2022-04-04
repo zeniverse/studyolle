@@ -99,4 +99,73 @@ class StudyControllerTest {
         Study byPath = studyRepository.findByPath("wrong path");
         assertNull(byPath);
     }
+
+    @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("스터디 조회")
+    @Test
+    public void viewStudy() throws Exception {
+        Study study = new Study();
+        study.setPath("test-path");
+        study.setTitle("test Study");
+        study.setShortDescription("short description");
+        study.setFullDescription("<p>full description</p>");
+
+        Account zering = accountRepository.findByNickname("zering");
+        studyService.createNewStudy(study, zering);
+
+        mockMvc.perform(get("/study/test-path"))
+                .andExpect(view().name("study/view"))
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("study"));
+    }
+
+    @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("스터디 가입")
+    @Test
+    public void joinStudy() throws Exception {
+        Account testAccount = createAccount("testAccount");
+        Study study = createStudy("test-study", testAccount);
+
+        mockMvc.perform(get("/study/" + study.getPath() + "/join"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/study/" + study.getPath() + "/members"));
+
+        Account zering = accountRepository.findByNickname("zering");
+        assertTrue(study.getMembers().contains(zering));
+
+    }
+
+    @WithUserDetails(value = "zering", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("스터디 탈퇴")
+    @Test
+    public void leaveStudy() throws Exception {
+        Account testAccount = createAccount("testAccount");
+        Study study = createStudy("test-study", testAccount);
+
+        Account zering = accountRepository.findByNickname("zering");
+        studyService.addMember(study, zering);
+
+        mockMvc.perform(get("/study/" + study.getPath() + "/leave"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/study/" + study.getPath() + "/members"));
+
+        assertFalse(study.getMembers().contains(zering));
+
+    }
+
+
+    protected Study createStudy(String path, Account manager){
+        Study study = new Study();
+        study.setPath(path);
+        studyService.createNewStudy(study, manager);
+        return study;
+    }
+
+    protected Account createAccount(String nickname){
+        Account account = new Account();
+        account.setNickname(nickname);
+        account.setEmail(nickname + "@email.com");
+        accountRepository.save(account);
+        return account;
+    }
 }
