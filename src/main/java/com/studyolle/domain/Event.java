@@ -176,4 +176,17 @@ public class Event {
             waitingList.subList(0, numberToAccept).forEach(e -> e.setAccepted(true));
         }
     }
+
+    public void accept(Enrollment enrollment) {
+        if(this.eventType == EventType.CONFIRMATIVE
+        && this.limitOfEnrollments > getNumberOfAcceptedEnrollments()){
+            enrollment.setAccepted(true);
+        }
+    }
+
+    public void reject(Enrollment enrollment) {
+        if(this.eventType == EventType.CONFIRMATIVE){
+            enrollment.setAccepted(false);
+        }
+    }
 }
