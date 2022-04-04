@@ -52,10 +52,11 @@ public class EventService {
     public void cancelEnrollment(Event event, Account account) {
         Enrollment enrollment = enrollmentRepository.findByEventAndAccount(event, account);
 
-        event.removeEnrollment(enrollment);
-        enrollmentRepository.delete(enrollment);
-
-        event.acceptNextWaitingEnrollment();
+        if(!enrollment.isAttended()){
+            event.removeEnrollment(enrollment);
+            enrollmentRepository.delete(enrollment);
+            event.acceptNextWaitingEnrollment();
+        }
     }
 
     public void acceptEnrollment(Event event, Enrollment enrollment) {
