@@ -1,4 +1,4 @@
-package com.studyolle.email;
+package com.studyolle.infra.email;
 
 public interface EmailService {
 

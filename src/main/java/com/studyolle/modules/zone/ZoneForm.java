@@ -1,4 +1,4 @@
-package com.studyolle.zone;
+package com.studyolle.modules.zone;
 
 import lombok.Data;
 

@@ -1,9 +1,9 @@
-package com.studyolle.study;
+package com.studyolle.modules.study;
 
-import com.studyolle.account.CurrentAccount;
-import com.studyolle.account.Account;
-import com.studyolle.study.form.StudyForm;
-import com.studyolle.study.validator.StudyFormValidator;
+import com.studyolle.modules.account.CurrentAccount;
+import com.studyolle.modules.account.Account;
+import com.studyolle.modules.study.form.StudyForm;
+import com.studyolle.modules.study.validator.StudyFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;

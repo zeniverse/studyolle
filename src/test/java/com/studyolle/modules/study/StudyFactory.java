@@ -1,6 +1,6 @@
-package com.studyolle.study;
+package com.studyolle.modules.study;
 
-import com.studyolle.account.Account;
+import com.studyolle.modules.account.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

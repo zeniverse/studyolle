@@ -1,16 +1,16 @@
-package com.studyolle.study;
+package com.studyolle.modules.study;
 
-import com.studyolle.account.Account;
-import com.studyolle.tag.Tag;
-import com.studyolle.zone.Zone;
-import com.studyolle.study.form.StudyDescriptionForm;
+import com.studyolle.modules.account.Account;
+import com.studyolle.modules.tag.Tag;
+import com.studyolle.modules.zone.Zone;
+import com.studyolle.modules.study.form.StudyDescriptionForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.studyolle.study.form.StudyForm.VALID_PATH_PATTERN;
+import static com.studyolle.modules.study.form.StudyForm.VALID_PATH_PATTERN;
 
 @Transactional
 @Service
@@ -37,11 +37,7 @@ public class StudyService {
 
     public Study getStudyToUpdate(Account account, String path) {
         Study study = this.getStudy(path);
-
-        if(!account.isManagerOf(study)){
-            throw new AccessDeniedException("해당 기능을 사용할 수 없습니다.");
-        }
-
+        checkIfManager(account, study);
         return study;
     }
 
@@ -69,7 +65,7 @@ public class StudyService {
     }
 
     private void checkIfManager(Account account, Study study) {
-        if (!account.isManagerOf(study)) {
+        if (!study.isManagedBy(account)) {
             throw new AccessDeniedException("해당 기능을 사용할 수 없습니다.");
         }
     }

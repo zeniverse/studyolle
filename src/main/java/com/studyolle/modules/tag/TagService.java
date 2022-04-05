@@ -1,4 +1,4 @@
-package com.studyolle.tag;
+package com.studyolle.modules.tag;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

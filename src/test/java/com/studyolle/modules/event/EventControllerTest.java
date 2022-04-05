@@ -1,12 +1,12 @@
-package com.studyolle.event;
+package com.studyolle.modules.event;
 
-import com.studyolle.account.AccountFactory;
-import com.studyolle.account.AccountRepository;
-import com.studyolle.account.AccountService;
-import com.studyolle.account.SignUpForm;
-import com.studyolle.account.Account;
-import com.studyolle.study.Study;
-import com.studyolle.study.StudyFactory;
+import com.studyolle.modules.account.AccountFactory;
+import com.studyolle.modules.account.AccountRepository;
+import com.studyolle.modules.account.AccountService;
+import com.studyolle.modules.account.form.SignUpForm;
+import com.studyolle.modules.account.Account;
+import com.studyolle.modules.study.Study;
+import com.studyolle.modules.study.StudyFactory;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

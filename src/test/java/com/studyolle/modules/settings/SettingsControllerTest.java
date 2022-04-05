@@ -1,16 +1,16 @@
-package com.studyolle.settings;
+package com.studyolle.modules.settings;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.studyolle.account.AccountRepository;
-import com.studyolle.account.AccountService;
-import com.studyolle.account.SignUpForm;
-import com.studyolle.account.Account;
-import com.studyolle.tag.Tag;
-import com.studyolle.zone.Zone;
-import com.studyolle.tag.TagForm;
-import com.studyolle.zone.ZoneForm;
-import com.studyolle.tag.TagRepository;
-import com.studyolle.zone.ZoneRepository;
+import com.studyolle.modules.account.AccountRepository;
+import com.studyolle.modules.account.AccountService;
+import com.studyolle.modules.account.form.SignUpForm;
+import com.studyolle.modules.account.Account;
+import com.studyolle.modules.tag.Tag;
+import com.studyolle.modules.zone.Zone;
+import com.studyolle.modules.tag.TagForm;
+import com.studyolle.modules.zone.ZoneForm;
+import com.studyolle.modules.tag.TagRepository;
+import com.studyolle.modules.zone.ZoneRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

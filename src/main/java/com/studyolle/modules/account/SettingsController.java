@@ -1,15 +1,15 @@
-package com.studyolle.modules.settings;
+package com.studyolle.modules.account;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.studyolle.modules.account.AccountService;
-import com.studyolle.modules.account.CurrentAccount;
-import com.studyolle.modules.account.Account;
+import com.studyolle.modules.account.form.NicknameForm;
+import com.studyolle.modules.account.form.Notifications;
+import com.studyolle.modules.account.form.PasswordForm;
+import com.studyolle.modules.account.form.Profile;
 import com.studyolle.modules.tag.Tag;
 import com.studyolle.modules.zone.Zone;
-import com.studyolle.modules.settings.form.*;
-import com.studyolle.modules.settings.validator.NicknameFormValidator;
-import com.studyolle.modules.settings.validator.PasswordFormValidator;
+import com.studyolle.modules.account.validator.NicknameFormValidator;
+import com.studyolle.modules.account.validator.PasswordFormValidator;
 import com.studyolle.modules.tag.TagForm;
 import com.studyolle.modules.tag.TagRepository;
 import com.studyolle.modules.tag.TagService;

@@ -1,4 +1,4 @@
-package com.studyolle.account;
+package com.studyolle.modules.account;
 
 
 import lombok.Getter;

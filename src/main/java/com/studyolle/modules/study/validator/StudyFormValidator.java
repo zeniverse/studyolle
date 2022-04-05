@@ -1,13 +1,11 @@
-package com.studyolle.study.validator;
+package com.studyolle.modules.study.validator;
 
-import com.studyolle.study.StudyRepository;
-import com.studyolle.study.form.StudyForm;
+import com.studyolle.modules.study.StudyRepository;
+import com.studyolle.modules.study.form.StudyForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 
 @Component
 @RequiredArgsConstructor

@@ -1,9 +1,9 @@
-package com.studyolle.study;
+package com.studyolle.modules.study;
 
-import com.studyolle.account.Account;
-import com.studyolle.account.UserAccount;
-import com.studyolle.tag.Tag;
-import com.studyolle.zone.Zone;
+import com.studyolle.modules.account.Account;
+import com.studyolle.modules.account.UserAccount;
+import com.studyolle.modules.tag.Tag;
+import com.studyolle.modules.zone.Zone;
 import lombok.*;
 
 import javax.persistence.*;
@@ -163,5 +163,9 @@ public class Study {
 
     public void removeMember(Account account) {
         this.getMembers().remove(account);
+    }
+
+    public boolean isManagedBy(Account account) {
+        return this.getManagers().contains(account);
     }
 }

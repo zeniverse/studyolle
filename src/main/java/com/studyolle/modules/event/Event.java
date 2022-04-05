@@ -1,8 +1,8 @@
-package com.studyolle.event;
+package com.studyolle.modules.event;
 
-import com.studyolle.account.Account;
-import com.studyolle.account.UserAccount;
-import com.studyolle.study.Study;
+import com.studyolle.modules.account.Account;
+import com.studyolle.modules.account.UserAccount;
+import com.studyolle.modules.study.Study;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
