@@ -1,5 +1,6 @@
 package com.studyolle.modules.account;
 
+import com.studyolle.infra.MockMvcTest;
 import com.studyolle.infra.email.EmailMessage;
 import com.studyolle.infra.email.EmailService;
 import org.junit.jupiter.api.DisplayName;
@@ -21,9 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Transactional
+@MockMvcTest
 class AccountControllerTest {
 
     @Autowired private MockMvc mockMvc;

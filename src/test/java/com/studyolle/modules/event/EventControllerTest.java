@@ -1,5 +1,6 @@
 package com.studyolle.modules.event;
 
+import com.studyolle.infra.MockMvcTest;
 import com.studyolle.modules.account.AccountFactory;
 import com.studyolle.modules.account.AccountRepository;
 import com.studyolle.modules.account.AccountService;
@@ -29,10 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@SpringBootTest
-@Transactional
-@AutoConfigureMockMvc
-@RequiredArgsConstructor
+@MockMvcTest
 class EventControllerTest {
 
     @Autowired AccountService accountService;

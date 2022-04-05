@@ -1,5 +1,6 @@
 package com.studyolle.modules.study;
 
+import com.studyolle.infra.MockMvcTest;
 import com.studyolle.modules.account.AccountFactory;
 import com.studyolle.modules.account.AccountRepository;
 import com.studyolle.modules.account.AccountService;
@@ -24,10 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@Transactional
-@AutoConfigureMockMvc
-@RequiredArgsConstructor
+@MockMvcTest
 class StudySettingsControllerTest {
 
     @Autowired AccountService accountService;

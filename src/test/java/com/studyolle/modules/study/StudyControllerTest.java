@@ -1,5 +1,6 @@
 package com.studyolle.modules.study;
 
+import com.studyolle.infra.MockMvcTest;
 import com.studyolle.modules.account.AccountRepository;
 import com.studyolle.modules.account.AccountService;
 import com.studyolle.modules.account.form.SignUpForm;
@@ -23,10 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@Transactional
-@AutoConfigureMockMvc
-@RequiredArgsConstructor
+@MockMvcTest
 class StudyControllerTest {
 
     @Autowired MockMvc mockMvc;
