@@ -52,7 +52,7 @@ public class Event {
 
     @OneToMany(mappedBy = "event")
     @OrderBy("enrolledAt")
-    private List<Enrollment> enrollments;
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private EventType eventType;
