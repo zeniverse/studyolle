@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Async
 @Component
-@Transactional(readOnly = true)
+@Transactional
 public class StudyEventListener {
 
     @EventListener
