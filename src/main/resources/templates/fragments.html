@@ -347,7 +347,7 @@
 
 <div th:fragment="update-zones (baseUrl)">
     <script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
-    <script type="application/javascript">
+    <script type="application/javascript" th:inline="javascript">
         $(function () {
             function tagRequest(url, zoneName) {
                 $.ajax({
