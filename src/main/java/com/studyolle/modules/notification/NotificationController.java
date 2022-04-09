@@ -30,6 +30,16 @@ public class NotificationController {
         return "notification/list";
     }
 
+    @GetMapping("/notifications/old")
+    public String getNotificationsOld(@CurrentAccount Account account, Model model){
+        List<Notification> notifications
+                = notificationRepository.findByAccountAndCheckedOrderByCreatedDateTimeDesc(account, true);
+        long numberOfNotChecked = notificationRepository.countByAccountAndChecked(account, false);
+        putCategorizedNotifications(model, notifications, notifications.size(), numberOfNotChecked);
+        model.addAttribute("isNew", false);
+
+        return "notification/list";
+    }
 
     private void putCategorizedNotifications(Model model, List<Notification> notifications,
                                              long numberOfChecked, long numberOfNotChecked) {
