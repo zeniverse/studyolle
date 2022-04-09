@@ -41,6 +41,12 @@ public class NotificationController {
         return "notification/list";
     }
 
+    @DeleteMapping("/notifications")
+    public String deleteNotifications(@CurrentAccount Account account){
+        notificationRepository.deleteByAccountAndChecked(account, true);
+        return "redirect:/notifications";
+    }
+
     private void putCategorizedNotifications(Model model, List<Notification> notifications,
                                              long numberOfChecked, long numberOfNotChecked) {
 
