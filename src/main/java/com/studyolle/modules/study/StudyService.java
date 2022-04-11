@@ -197,7 +197,7 @@ public class StudyService {
 //            study.publish();
 //            Study newStudy = this.createNewStudy(study, account);
 //
-//            Tag jpaTag = tagRepository.findByTitle("jpa");
+//            Tag jpaTag = tagRepository.findByTitle("JPA");
 //            newStudy.getTags().add(jpaTag);
 //        }
 //    }
