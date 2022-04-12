@@ -9,9 +9,20 @@
     스터디올레 가입을 완료하려면 <a href="#" th:href="@{/check-email}" class="alert-link">계정 인증 이메일을 확인</a>하세요.
 </div>
 
+    <div class="mb-4 rounded-3 bg-white text-center">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold mb-3">스터디올래</h1>
+            <p class="lead text-muted mb-5">
+                태그와 지역 기반으로 스터디를 찾고 참여하세요.<br/>
+                스터디 모임 관리 기능을 제공합니다.
+            </p>
+            <a th:href="@{/signup}" class="btn btn-primary btn-lg">회원 가입</a>
+        </div>
+    </div>
+
 <div class="container">
-    <div class="py-5 text-center">
-        <h2>스터디올래</h2>
+    <div class="row justify-content-center">
+        <div th:replace="fragments.html :: study-list (studyList=${studyList})"></div>
     </div>
     <div th:replace="fragments.html :: footer"></div>
 </div>
