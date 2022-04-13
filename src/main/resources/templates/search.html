@@ -35,7 +35,9 @@
 
         </div>
         <div class="row justify-content-center">
-            <div th:replace="fragments.html :: study-list (studyList=${studyPage.getContent()})"></div>
+            <div class="col-sm-10">
+                <div th:replace="fragments.html :: study-list (studyList=${studyPage.getContent()})"></div>
+            </div>
         </div>
     </div>
     <div th:replace="fragments.html :: footer"></div>
